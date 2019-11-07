@@ -1,0 +1,130 @@
+% LaTeX 양식 샘플
+\RequirePackage{fix-cm} % documentclass 이전에 넣는다.
+% oneside : 단면 인쇄용
+% twoside : 양면 인쇄용
+% ko : 국문 논문 작성
+% master : 석사
+% phd : 박사
+% openright : 챕터가 홀수쪽에서 시작
+\documentclass[oneside,master]{snuthesis}
+
+\include{snutocstyle} % SNU toc style
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 다른 패키지 로드
+%% http://faq.ktug.or.kr/faq/pdflatex%B0%FAlatex%B5%BF%BD%C3%BB%E7%BF%EB
+%% 필요에 따라 직접 수정 필요
+\ifpdf
+	\input glyphtounicode\pdfgentounicode=1 %type 1 font사용시
+	%\usepackage[pdftex,unicode]{hyperref} % delete me
+	\usepackage[pdftex]{graphicx}
+	%\usepackage[pdftex,svgnames]{xcolor}
+\else
+	%\usepackage[dvipdfmx,unicode]{hyperref} % delete me
+	\usepackage[dvipdfmx]{graphicx}
+	%\usepackage[dvipdfmx,svgnames]{xcolor}
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{subfiles}
+\usepackage{lipsum} % lorem ipsum
+
+\usepackage{draftwatermark}
+\SetWatermarkText{DRAFT}
+\SetWatermarkLightness{0.9}
+\SetWatermarkScale{0.5}
+
+%% \title : 22pt로 나오는 큰 제목
+%% \title* : 16pt로 나오는 작은 제목
+\title{%
+    Efficient parameter estimation
+    for the choice under risk and ambiguity \\
+    using adaptive design optimization
+    with history-based restriction
+}
+\title*{.}
+
+\academicko{심리학}
+\academicen{Psychology}
+
+\schoolko{서울대학교 대학원}
+\departmentko{심리학과 인지심리 전공}
+
+\schoolen{COLLEGE OF SOCIAL SCIENCE}
+\departmenten{DEPARTMENT OF PSYCHOLOGY}
+
+%% 저자 이름 Author's(Your) name
+%\author{홍길동}
+%\author*{홍~길~동} % Insert space for Hangul name.
+\author{양재영}
+\author*{양~재~영} % Same as \author.
+
+%% 학번 Student number
+\studentnumber{2018-29907}
+
+%% 지도교수님 성함 Advisor's name
+%% (?) Use Korean name for Korean professor.
+%\advisor{홍길동}
+%\advisor*{홍~길~동} % Insert space for Hangul name.
+\advisor{안우영}
+\advisor*{안~우~영}
+
+%% 학위 수여일 Graduation date
+%% 표지에 적히는 날짜.
+%% 학위 수여일이 아니라 논문 발간년도를 적어야 할 수도 있음.
+%\graddate{2010~년~2~월}
+\graddate{2020~년~2~월}
+
+%% 논문 제출일 Submission date
+%% (?) Use Korean date format.
+\submissiondate{2019~년~12~월}
+
+%% 논문 인준일 Approval date
+%% (?) Use Korean date format.
+\approvaldate{2019~년~12~월}
+
+%% Note: 인준지의 교수님 성함은
+%% 컴퓨터로 출력하지 않고, 교수님께서
+%% 자필로 쓰시기도 합니다.
+%% Committee members' names
+\committeemembers%
+{김~청~택}%
+{고~성~룡}%
+{안~우~영}%
+{최교수}%
+{John Smith}
+%% Length of underline
+%\setlength{\committeenameunderlinelength}{7cm}
+
+\begin{document}
+\pagenumbering{Roman}
+\makefrontcover
+\makeapproval
+
+\cleardoublepage
+\pagenumbering{roman}
+% 초록 Abstract
+
+\subfile{chapters/0-abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\cleardoublepage
+\pagenumbering{arabic}
+
+\subfile{chapters/1-introduction}
+\subfile{chapters/2-methods}
+\subfile{chapters/3-results}
+\subfile{chapters/4-discussion}
+
+\appendix
+
+\subfile{appendix/a-simulation}
+
+\subfile{chapters/0-abstract-kor}
+% \subfile{chapters/0-acknowledgement}
+
+\end{document}
+

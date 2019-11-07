@@ -245,7 +245,7 @@
 	\newcommand{\keywordnamealt}{주요어}
 	\newcommand{\studentnumbername}{Student Number}
 	\newcommand{\studentnumbernamealt}{학번}
-	\newcommand{\abstractnamealt}{초록}
+	\newcommand{\abstractnamealt}{국문초록}
 	\newcommand{\acknowledgementname}{Acknowledgements}
 \fi
 
@@ -360,6 +360,8 @@
 %% 학문 (단, 학사는 공학으로 고정)
 \def\academicko#1{\gdef\@snu@academic@ko{#1}}
 \def\@snu@academic@ko{공학}
+\def\academicen#1{\gdef\@snu@academic@en{#1}}
+\def\@snu@academic@en{Engineering}
 
 %% 대학
 \def\schoolko#1{\gdef\@snu@school@ko{#1}}
@@ -470,6 +472,7 @@
 		\centering
 		\normalfont
 		\linespread{1.3}\selectfont
+
 		\if@snu@under % 학부
 			\fontsize{16pt}{16pt}\selectfont
 			공학학사학위논문\\
@@ -485,14 +488,16 @@
 			\@snu@department@ko\\
 			\vspace{1cm}\nointerlineskip
 			\@authoralt
+
 		\else % 대학원
 			\fontsize{14pt}{14pt}\selectfont
 			\if@snu@ms
-				\@snu@koen{\@snu@academic@ko석사학위논문}%
-				{M.S. THESIS}\\
+				% \@snu@koen{\@snu@academic@ko석사학위논문}%
+				% {Master's Thesis of \@snu@academic@en}\\
+				\@snu@academic@ko석사학위논문 \\
 			\else
 				\@snu@koen{\@snu@academic@ko박사학위논문}%
-				{Ph.D. DISSERTATION}\\
+				{Ph.D. Dissertation of \@snu@academic@en}\\
 			\fi
 			\vspace{2cm}\nointerlineskip
 			\fontsize{22pt}{22pt}\selectfont
@@ -500,32 +505,27 @@
 			\vspace{1cm}\nointerlineskip
 			\fontsize{16pt}{16pt}\selectfont
 			\@titlealt\\
-			\if@snu@ko\else
-				\vspace{2cm}\nointerlineskip
-				\fontsize{14pt}{14pt}\selectfont
-				BY\\
-				\vspace{1cm}\nointerlineskip
-				\@author
-			\fi
 			\vfill
 			\fontsize{14pt}{14pt}\selectfont
 			\@snu@graddate\\
 			\vspace{4cm}\nointerlineskip
-			\if@snu@ko
-				\fontsize{16pt}{16pt}\selectfont
-				\@snu@school@ko\\
-				\vspace{5mm}\nointerlineskip
-				\fontsize{14pt}{16pt}\selectfont
-				\@snu@department@ko\\
-				\vspace{5mm}\nointerlineskip
-				\fontsize{16pt}{16pt}\selectfont
-				\@authoralt
-			\else
-				\fontsize{14pt}{14pt}\selectfont
-				\@snu@department@en\\
-				\@snu@school@en\\
-				\@snu@school@ensub
-			\fi
+			% \if@snu@ko
+			\fontsize{16pt}{16pt}\selectfont
+			\@snu@school@ko\\
+
+			\vspace{5mm}\nointerlineskip
+			\fontsize{14pt}{16pt}\selectfont
+			\@snu@department@ko\\
+
+			\vspace{5mm}\nointerlineskip
+			\fontsize{16pt}{16pt}\selectfont
+			\@authoralt
+			% \else
+			% 	\fontsize{14pt}{14pt}\selectfont
+			% 	\@snu@department@en\\
+			% 	\@snu@school@en\\
+			% 	\@snu@school@ensub \\
+			% \fi
 		\fi
 	}
 	%\end{minipage}
@@ -549,7 +549,7 @@
 \addtolength{\@snu@approvaltextheight}{10mm} % modified at version 0.99
 %% underline length
 \newlength{\committeenameunderlinelength}
-\setlength{\committeenameunderlinelength}{7cm}
+\setlength{\committeenameunderlinelength}{5cm}
 \newlength{\@snu@underlinetmp}
 \newlength{\@snu@underlinetmpb}
 \newcommand{\committeestyle}[1]{%
@@ -633,13 +633,13 @@
 			\fontsize{14pt}{14pt}\selectfont
 			\@snu@approvaldate\\
 			\vfill
-			\begin{tabular}[b]{cc}
-			위 \hfill 원 \hfill 장 & \committeestyle{\@snu@committeememberA} \\
-			부위원장               & \committeestyle{\@snu@committeememberB} \\
-			위 \hfill 원           & \committeestyle{\@snu@committeememberC} \\
+			\begin{tabular}[b]{ccl}
+			위 \hfill 원 \hfill 장 & \committeestyle{\@snu@committeememberA} & (인) \\[.5em]
+			부위원장               & \committeestyle{\@snu@committeememberB} & (인) \\[.5em]
+			위 \hfill 원           & \committeestyle{\@snu@committeememberC} & (인) \\
 			\if@snu@ms\else
-			위 \hfill 원           & \committeestyle{\@snu@committeememberD} \\
-			위 \hfill 원           & \committeestyle{\@snu@committeememberE} \\
+			위 \hfill 원           & \committeestyle{\@snu@committeememberD} & (인) \\
+			위 \hfill 원           & \committeestyle{\@snu@committeememberE} & (인) \\
 			\fi
 			\end{tabular}
 		\fi
