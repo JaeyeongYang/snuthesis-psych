@@ -494,18 +494,22 @@
 			\if@snu@ms
 				% \@snu@koen{\@snu@academic@ko석사학위논문}%
 				% {Master's Thesis of \@snu@academic@en}\\
-				\@snu@academic@ko석사학위논문 \\
+				\@snu@academic@ko석사 학위논문 \\
 			\else
-				\@snu@koen{\@snu@academic@ko박사학위논문}%
+				\@snu@koen{\@snu@academic@ko박사 학위논문}%
 				{Ph.D. Dissertation of \@snu@academic@en}\\
 			\fi
+
+			% Title
 			\vspace{2cm}\nointerlineskip
 			\fontsize{22pt}{22pt}\selectfont
 			\@title\\
+			% Alternative title
 			\vspace{1cm}\nointerlineskip
 			\fontsize{16pt}{16pt}\selectfont
 			\@titlealt\\
 			\vfill
+			% Graduation date
 			\fontsize{14pt}{14pt}\selectfont
 			\@snu@graddate\\
 			\vspace{4cm}\nointerlineskip
