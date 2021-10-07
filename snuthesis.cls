@@ -106,9 +106,9 @@
 \@snu@kofalse %% 기본값은 영문 논문.
 
 \newif\if@snu@indentfirst %% true이면 section의 첫 단락도 들여쓴다.
-\@snu@indentfirstfalse
+\@snu@indentfirsttrue % 수정함 - 현진
 \newif\if@snu@indentoptionset
-\@snu@indentoptionsetfalse
+\@snu@indentoptionsettrue % 수정함 - 현진
 
 \newif\if@snu@easy %% easy 옵션. 이것저것 대신 해줌.
 \@snu@easyfalse %% 기본값은 false.
@@ -128,17 +128,6 @@
 \DeclareOption{indentfirst}{\@snu@indentfirsttrue \@snu@indentoptionsettrue}
 \DeclareOption{noindentfirst}{\@snu@indentfirstfalse \@snu@indentoptionsettrue}
 \DeclareOption{easy}{\@snu@easytrue}
-
-\DeclareOption{draft}{\PassOptionsToClass{draft}{report}}
-\DeclareOption{final}{\PassOptionsToClass{final}{report}}
-\DeclareOption{leqno}{\PassOptionsToClass{leqno}{report}}
-\DeclareOption{fleqn}{\PassOptionsToClass{fleqn}{report}}
-\DeclareOption{openright}{\PassOptionsToClass{openright}{report}}
-\DeclareOption{openany}{\PassOptionsToClass{openany}{report}}
-\DeclareOption{openbib}{\PassOptionsToClass{openbib}{report}}
-\DeclareOption{oneside}{\PassOptionsToClass{oneside}{report}}
-\DeclareOption{twoside}{\PassOptionsToClass{twoside}{report}}
-%% report class의 나머지 옵션은 의도적으로 제공하지 않음.
 
 \DeclareOption{nonfrench}{\PassOptionsToClass{nonfrench}{kotex}}
 \DeclareOption{finemath}{\PassOptionsToClass{finemath}{kotex}}
@@ -165,89 +154,59 @@
 	\else \expandafter\@secondoftwo
 	\fi
 }
+% 예전 버전
 % Usage: \@snu@msphd{M.S.}{Ph.D.}
-
 %% ProcessOptions 뒤에 나와야 정상적으로 동작한다.
-\if@snu@under % 학부
-	\if@snu@ko
-		\PassOptionsToClass{a4paper,10pt}{report}
-	\else
-		\PassOptionsToClass{a4paper,11pt}{report}
-	\fi
-\else % 대학원
-	\PassOptionsToClass{b5paper,11pt}{report}
-\fi
-\LoadClass[onecolumn]{report}
+%\if@snu@under % 학부
+%	\if@snu@ko
+%		\PassOptionsToClass{a4paper,10pt}{report}
+%	\else
+%		\PassOptionsToClass{a4paper,11pt}{report}
+%	\fi
+%\else % 대학원
+%	\PassOptionsToClass{b5paper,11pt}{report}
+%\fi
+%\LoadClass[onecolumn]{report}
 
-\if@snu@ko
-	\RequirePackage{kotex} %% hangul 옵션에 대해 테스트 중.
-	%% The UK TeX FAQ
-	%% Your 437 Questions Answered
-	%% version 3.19a, date 2009-06-13, p.211.
-	\renewcommand{\abstractname}{초록} %
-	%\renewcommand{\alsoname}{see also} % (makeidx package)
-	\renewcommand{\appendixname}{부록} %
-	\renewcommand{\bibname}{참고문헌} % (report,book)
-	%\renewcommand{\ccname}{cc} % (letter)
-	%\renewcommand{\chaptername}{Chapter} % (report,book)
-	\newcommand{\snuchappre}{제}
-	\newcommand{\snuchappost}{\space장}
-	\renewcommand{\contentsname}{목차} %
-	%\renewcommand{\enclname}{encl} % (letter)
-	\renewcommand{\figurename}{그림} % (for captions)
-	%\renewcommand{\headtoname}{To} % (letter)
-	\renewcommand{\indexname}{색인} %
-	\renewcommand{\listfigurename}{그림 목차} %
-	\renewcommand{\listtablename}{표 목차} %
-	%\renewcommand{\pagename}{Page} % (letter)
-	%\renewcommand{\partname}{Part} %
-	%\renewcommand{\refname}{References} % (article)
-	%\renewcommand{\seename}{see} % (makeidx package)
-	\renewcommand{\tablename}{표} % (for caption)
-	\newcommand{\keywordname}{주요어}
-	\newcommand{\keywordnamealt}{Keywords}
-	\newcommand{\studentnumbername}{학번}
-	\newcommand{\studentnumbernamealt}{Student Number}
-	\newcommand{\abstractnamealt}{Abstract}
-	\newcommand{\acknowledgementname}{감사의 글}
-	\g@addto@macro\appendix{%
-		\renewcommand{\snuchappre}{부록}%
-		\renewcommand{\snuchappost}{}%
-	}
-	%% 참고사항
-	%% kotex에 [hangul] 옵션을 주면
-	%% 여기서 변경한 사항이 덮어쓰여진다.
-	%% babel 패키지도 비슷한 역할을 할 수 있다.
-\else
-	\RequirePackage{kotex} %% 국문 초록 때문에 필요하다.
-	%% The UK TeX FAQ
-	%% Your 437 Questions Answered
-	%% version 3.19a, date 2009-06-13, p. 211.
-	%\renewcommand{\abstractname}{Abstract} %
-	%\renewcommand{\alsoname}{see also} % (makeidx package)
-	%\renewcommand{\appendixname}{Appendix} %
-	%\renewcommand{\bibname}{Bibliography} % (report,book)
-	%\renewcommand{\ccname}{cc} % (letter)
-	%\renewcommand{\chaptername}{Chapter} % (report,book)
-	%\renewcommand{\contentsname}{Contents} %
-	%\renewcommand{\enclname}{encl} % (letter)
-	%\renewcommand{\figurename}{Figure} % (for captions)
-	%\renewcommand{\headtoname}{To} % (letter)
-	%\renewcommand{\indexname}{Index} %
-	%\renewcommand{\listfigurename}{List of Figures} %
-	%\renewcommand{\listtablename}{List of Tables} %
-	%\renewcommand{\pagename}{Page} % (letter)
-	%\renewcommand{\partname}{Part} %
-	%\renewcommand{\refname}{References} % (article)
-	%\renewcommand{\seename}{see} % (makeidx package)
-	%\renewcommand{\tablename}{Table} % (for caption)
-	\newcommand{\keywordname}{Keywords}
-	\newcommand{\keywordnamealt}{주요어}
-	\newcommand{\studentnumbername}{Student Number}
-	\newcommand{\studentnumbernamealt}{학번}
-	\newcommand{\abstractnamealt}{국문초록}
-	\newcommand{\acknowledgementname}{Acknowledgements}
-\fi
+% 현재 버전: APA 양식과 합친 버전
+%% 필요시 apa version 변경해줄것 
+\PassOptionsToClass{man,11pt,floatsintext}{apa7}
+\LoadClass{apa7}
+
+\RequirePackage{fancyhdr}
+\fancyfoot{}
+\rhead{}
+\pagestyle{plain}
+
+\RequirePackage{kotex} %% 국문 초록 때문에 필요하다.
+
+%% The UK TeX FAQ
+%% Your 437 Questions Answered
+%% version 3.19a, date 2009-06-13, p. 211.
+%\renewcommand{\abstractname}{Abstract} %
+%\renewcommand{\alsoname}{see also} % (makeidx package)
+%\renewcommand{\appendixname}{Appendix} %
+%\renewcommand{\bibname}{Bibliography} % (report,book)
+%\renewcommand{\ccname}{cc} % (letter)
+%\renewcommand{\chaptername}{} % (report,book)
+\renewcommand{\contentsname}{Contents} %
+%\renewcommand{\enclname}{encl} % (letter)
+%\renewcommand{\figurename}{Figure} % (for captions)
+%\renewcommand{\headtoname}{To} % (letter)
+%\renewcommand{\indexname}{Index} %
+%\renewcommand{\listfigurename}{List of Figures} %
+%\renewcommand{\listtablename}{List of Tables} %
+%\renewcommand{\pagename}{Page} % (letter)
+%\renewcommand{\partname}{Part} %
+%\renewcommand{\refname}{References} % (article)
+%\renewcommand{\seename}{see} % (makeidx package)
+%\renewcommand{\tablename}{Table} % (for caption)
+\renewcommand{\keywordname}{Keywords}
+\newcommand{\keywordnamealt}{주요어}
+\newcommand{\studentnumbername}{Student Number}
+\newcommand{\studentnumbernamealt}{학번}
+\newcommand{\abstractnamealt}{국문초록}
+\newcommand{\acknowledgementname}{감사의 글}
 
 \if@snu@indentoptionset
     \if@snu@indentfirst
@@ -277,29 +236,28 @@
 %% LaTeX의 b5paper는 ISO 규격으로 약간 작으므로,
 %% 직접 고쳐준다.
 
-
-\if@snu@under
-	\setlength{\paperwidth}{210mm}
-	\setlength{\paperheight}{297mm}
-	\setlength{\textwidth}{160mm} %% 210 mm - (2.5 cm)*2
-	\setlength{\textheight}{232mm} %% 297 mm - 3 cm - 3.5 cm
-	% 좌우 여백 2.5 cm
-	% 상단 여백 3 cm, 하단 여백 3.5 cm
-\else
-	\if@snu@fsbp
-		\setlength{\paperwidth}{188mm}
-		\setlength{\paperheight}{258mm}
-		\setlength{\textwidth}{138mm} %% 188 mm - (2.5 cm)*2
-		\setlength{\textheight}{193mm} %% 258 mm - 3 cm - 3.5 cm
-	\else
-		\setlength{\paperwidth}{182mm}
-		\setlength{\paperheight}{257mm}
-		\setlength{\textwidth}{132mm} %% 182 mm - (2.5 cm)*2
-		\setlength{\textheight}{192mm} %% 257 mm - 3 cm - 3.5 cm
-	\fi
-	% 좌우 여백 2.5 cm
-	% 상단 여백 3 cm, 하단 여백 3.5 cm
-\fi
+% \if@snu@under
+% 	\setlength{\paperwidth}{210mm}
+% 	\setlength{\paperheight}{297mm}
+% 	\setlength{\textwidth}{160mm} %% 210 mm - (2.5 cm)*2
+% 	\setlength{\textheight}{232mm} %% 297 mm - 3 cm - 3.5 cm
+% 	% 좌우 여백 2.5 cm
+% 	% 상단 여백 3 cm, 하단 여백 3.5 cm
+% \else
+% 	\if@snu@fsbp
+% 		\setlength{\paperwidth}{188mm}
+% 		\setlength{\paperheight}{258mm}
+% 		\setlength{\textwidth}{138mm} %% 188 mm - (2.5 cm)*2
+% 		\setlength{\textheight}{193mm} %% 258 mm - 3 cm - 3.5 cm
+% % 	\else
+\setlength{\paperwidth}{182mm}
+\setlength{\paperheight}{257mm}
+\setlength{\textwidth}{132mm} %% 182 mm - (2.5 cm)*2
+\setlength{\textheight}{192mm} %% 257 mm - 3 cm - 3.5 cm
+% % 	\fi
+% % 	% 좌우 여백 2.5 cm
+% % 	% 상단 여백 3 cm, 하단 여백 3.5 cm
+% % \fi
 %% hoffset, voffset을 직접 바꾸면
 %% 일부 패키지와 잘 안 맞는다.
 %%\setlength{\hoffset}{-1in}
@@ -318,20 +276,11 @@
 	\setlength{\pdfpagewidth}{\paperwidth}
 	\setlength{\pdfpageheight}{\paperheight}
 \fi
+\setlength{\parindent}{0.5in}
 
 
 %% 줄간격
-\if@snu@under
-	%% 배행간 설정이 조금 까다롭다.
-	%% 영문은 1.6으로 하고, 한글은 1.75나 2.0으로 해야 한다는 주장도 있다.
-	\linespread{1.75} % Doblespacing
-\else
-	\if@snu@ko
-	\linespread{1.6} % 170% (?)
-	\else
-	\linespread{1.5} % 170% (?)
-	\fi
-\fi
+\linespread{1.7}
 \let\@snu@oldfootnote=\footnote
 \renewcommand{\footnote}[1]{\linespread{1.0}\@snu@oldfootnote{#1}}
 
@@ -443,10 +392,10 @@
 \def\agreementdate#1{\gdef\@snu@agreementdate{#1}}
 
 %% Copied def. of \cleardoublepage from memoir.cls
-\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
-  %\hbox{}\thispagestyle{cleared}%
+\def\cleardoublepage{\clearpage\ifodd\c@page\else
+   %\hbox{}\thispagestyle{cleared}%
   \hbox{}\thispagestyle{empty}%
-  \newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+  \newpage\if@twocolumn\hbox{}\newpage\fi\fi}
 
 %% 표지
 %% 표지 하단 여백은 3 cm (5 mm 작음)
@@ -475,7 +424,7 @@
 
 		\if@snu@under % 학부
 			\fontsize{16pt}{16pt}\selectfont
-			공학학사학위논문\\
+			심리학학사학위논문\\
 			\vspace{2cm}\nointerlineskip
 			\fontsize{21pt}{21pt}\selectfont
 			\@title\\
@@ -494,10 +443,11 @@
 			\if@snu@ms
 				% \@snu@koen{\@snu@academic@ko석사학위논문}%
 				% {Master's Thesis of \@snu@academic@en}\\
-				\@snu@academic@ko석사 학위논문 \\
+				\@snu@academic@ko석사 학위논문\\
 			\else
-				\@snu@koen{\@snu@academic@ko박사 학위논문}%
-				{Ph.D. Dissertation of \@snu@academic@en}\\
+				% \@snu@koen{\@snu@academic@ko박사 학위논문}%
+				% {Ph.D. Dissertation of \@snu@academic@en}\\
+				\@snu@academic@ko박사 학위논문\\
 			\fi
 
 			% Title
@@ -600,11 +550,11 @@
 			\vspace{1cm}\nointerlineskip
 			지~도~교~수~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~(인)
 		\else % 대학원
-			\if@snu@ko
+% 			\if@snu@ko
 				\fontsize{22pt}{22pt}\selectfont
-			\else
-				\fontsize{16pt}{16pt}\selectfont
-			\fi
+% 			\else
+% 				\fontsize{16pt}{16pt}\selectfont
+% 			\fi
 			\@title\\
 			\vspace{1cm}\nointerlineskip
 			\fontsize{16pt}{16pt}\selectfont
@@ -630,7 +580,7 @@
 			\fontsize{16pt}{16pt}\selectfont
 			\@authoralt\\
 			\vspace{1cm}\nointerlineskip
-			\@author의 %
+			\@author~의 %
 			\@snu@academic@ko\@snu@msphd{석사}{박사} %
 			학위논문을 인준함\\
 			\vspace{5mm}\nointerlineskip
@@ -741,27 +691,19 @@
 
 %% abstract
 \renewenvironment{abstract}{%
-	\if@snu@ko
-		\chapter*{\abstractname}
-		\@mkboth{\MakeUppercase\abstractname}%
-			{\MakeUppercase\abstractname}%
-		\addcontentsline{toc}{chapter}{\abstractname}%
-	\else
-		\if@openright \cleardoublepage
-		\else \clearpage \fi
-		\@afterindentfalse
-		\phantomsection
-		\addcontentsline{toc}{chapter}{\abstractname}
-		{%
-			\centering
-			\normalfont
-			\linespread{1.0}
-			\fontsize{22pt}{22pt}\selectfont
-			\textbf{\abstractname}\par\nobreak
-		}
-		\vspace{2cm}
-		\@afterheading
-	\fi
+	\cleardoublepage
+	\@afterindentfalse
+	\phantomsection
+	\addcontentsline{toc}{section}{\abstractname}
+	{%
+		\centering
+		\normalfont
+		\linespread{1.0}
+		\fontsize{22pt}{22pt}\selectfont
+		\textbf{\abstractname}\par\nobreak
+	}
+	\vspace{2cm}
+	\@afterheading
 }{%
 	\vfill\vspace*{\fill}
 	% better than "\vfill", "\null\vfill", \vspace*{0pt}\vfill", etc.
@@ -782,27 +724,19 @@
 %% abstractalt
 \newenvironment{abstractalt}%
 {%
-	\if@snu@ko
-		\chapter*{\abstractnamealt}
-		\@mkboth{\MakeUppercase\abstractnamealt}%
-			{\MakeUppercase\abstractnamealt}%
-		\addcontentsline{toc}{chapter}{\abstractnamealt}%
-	\else
-		\if@openright \cleardoublepage
-		\else \clearpage \fi
-		\@afterindentfalse
-		\phantomsection
-		\addcontentsline{toc}{chapter}{\abstractnamealt}
-		{%
-			\centering
-			\normalfont
-			\linespread{1.0}
-			\fontsize{16pt}{16pt}\selectfont
-			\textbf{\abstractnamealt}\par\nobreak
-		}
-		\vspace{2cm}
-		\@afterheading
-	\fi
+	\cleardoublepage
+	\@afterindentfalse
+	\phantomsection
+	\addcontentsline{toc}{section}{\abstractnamealt}
+	{%
+		\centering
+		\normalfont
+		\linespread{1.0}
+		\fontsize{16pt}{16pt}\selectfont
+		\textbf{\abstractnamealt}\par\nobreak
+	}
+	\vspace{2cm}
+	\@afterheading
 }{%
 	\vfill\vspace*{\fill}
 	% better than "\vfill", "\null\vfill", \vspace*{0pt}\vfill", etc.
@@ -818,27 +752,19 @@
 
 %% 감사의 글
 \newcommand{\acknowledgement}{%
-	\if@snu@ko
-		\if@openright \cleardoublepage
-		\else \clearpage \fi
-		\@afterindentfalse
-		\phantomsection
-		\addcontentsline{toc}{chapter}{\acknowledgementname}
-		{%
-			\centering
-			\normalfont
-			\linespread{1.0}
-			\fontsize{16pt}{16pt}\selectfont
-			\textbf{\acknowledgementname}\par\nobreak
-		}
-		\vspace{2cm}
-		\@afterheading
-	\else
-		\chapter*{\acknowledgementname}
-		\@mkboth{\MakeUppercase\acknowledgementname}%
-			{\MakeUppercase\acknowledgementname}%
-		\addcontentsline{toc}{chapter}{\acknowledgementname}%
-	\fi
+	\cleardoublepage
+	\@afterindentfalse
+	\phantomsection
+	\addcontentsline{toc}{section}{\acknowledgementname}
+	{%
+		\centering
+		\normalfont
+		\linespread{1.0}
+		\fontsize{16pt}{16pt}\selectfont
+		\textbf{\acknowledgementname}\par\nobreak
+	}
+	\vspace{2cm}
+	\@afterheading
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -852,94 +778,17 @@
 %% 표의 캡션에는 마침표가 없어야 하고
 %% 그림의 캡션에는 있어야 함.
 %% (반대던가??)
-\long\def\@makecaption#1#2{%
-  \vskip\abovecaptionskip
-  \sbox\@tempboxa{#1 #2}%
-  \ifdim \wd\@tempboxa >\hsize
-    #1 #2\par
-  \else
-    \global \@minipagefalse
-    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
-  \fi
-  \vskip\belowcaptionskip}
 
-% 한글 논문과 영문 논문의 서식이 다르다.
-% 귀찮지만 따로 만들어야 한다.
-\if@snu@ko
-    %% report 클래스에서 약간 고침
-    %% chapter* style: style of toc, lof, lot, etc.
-    \def\@makeschapterhead#1{%
-      {%
-	\centering
-	\normalfont
-	\interlinepenalty\@M
-	\linespread{1.0}
-	\fontsize{22pt}{22pt}\selectfont
-	\bfseries #1\par\nobreak
-	\vspace{2cm}
-      }}
-    %% report 클래스에서 약간 고침
-    %% chapter style
-    \def\@makechapterhead#1{%
-      {%
-	\centering
-	\normalfont
-	\linespread{1.0}\selectfont
-	\ifnum \c@secnumdepth >\m@ne
-	    \fontsize{16pt}{16pt}\selectfont
-	    \bfseries \snuchappre\space\thechapter\snuchappost\space
-	\fi
-	\interlinepenalty\@M
-	\fontsize{16pt}{16pt}\selectfont
-	\bfseries #1\par\nobreak
-	\vspace{2cm}
-      }}
-\else
-    %% report 클래스에서 약간 고침
-    %% chapter* style: style of toc, lof, lot, etc.
-    \def\@makeschapterhead#1{%
-      \vspace*{3cm}% 챕터 숫자 위의 공간
-      \vspace{-\f@baselineskip} % 정확한 조절을 위해 필요
-      {%
-	\parindent \z@ \raggedright
-	\normalfont
-	\interlinepenalty\@M
-	\linespread{1.0}
-	\fontsize{22pt}{22pt}\selectfont
-	\bfseries #1\par\nobreak
-	\vspace{2cm}
-      }}
-    %% report 클래스에서 약간 고침
-    %% chapter style
-    \def\@makechapterhead#1{%
-      \vspace*{3cm}% 챕터 숫자 위의 공간
-      \vspace{-\f@baselineskip} % 정확한 조절을 위해 필요
-      {%
-	\parindent \z@ \raggedright \normalfont
-	\linespread{1.0}\selectfont
-	\ifnum \c@secnumdepth >\m@ne
-	    \fontsize{20pt}{20pt}\selectfont
-	    \bfseries \@chapapp\space \thechapter
-	    \par\nobreak
-	    \vspace{2cm}
-	\fi
-	\interlinepenalty\@M
-	\fontsize{22pt}{22pt}\selectfont
-	\bfseries #1\par\nobreak
-	\vspace{2cm}
-      }}
-\fi
-
-% section style
-\renewcommand\section{%
-	\@startsection {section}{1}{\z@}%
-	{-3.5ex \@plus -1ex \@minus -.2ex}%
-	{2.3ex \@plus.2ex}%
-	{\normalfont\fontsize{14pt}{14pt}\selectfont\bfseries}}
-\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
-	{-3.25ex\@plus -1ex \@minus -.2ex}%
-	{1.5ex \@plus .2ex}%
-	{\normalfont\fontsize{12pt}{12pt}\selectfont\bfseries}}
+%\long\def\@makecaption#1#2{%
+%  \vskip\abovecaptionskip
+%  \sbox\@tempboxa{#1 #2}%
+%  \ifdim \wd\@tempboxa >\hsize
+%    #1 #2\par
+%  \else
+%    \global \@minipagefalse
+%    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+%  \fi
+%  \vskip\belowcaptionskip}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% template과 직접적인 관련이 없는 설정으로 이것저것 대신 해준다.

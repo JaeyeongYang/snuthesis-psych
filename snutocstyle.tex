@@ -15,32 +15,16 @@
 \usepackage[titles]{tocloft} % when you don't use subfigure package
 \makeatletter
 \if@snu@ko
-	\renewcommand\cftchappresnum{제~}
-	\renewcommand\cftchapaftersnum{~장}
 	\renewcommand\cftfigpresnum{그림~}
 	\renewcommand\cfttabpresnum{표~}
 \else
-	\renewcommand\cftchappresnum{Chapter~}
 	\renewcommand\cftfigpresnum{Figure~}
 	\renewcommand\cfttabpresnum{Table~}
 \fi
 \makeatother
 \newlength{\mytmplen}
-\settowidth{\mytmplen}{\bfseries\cftchappresnum\cftchapaftersnum}
-\addtolength{\cftchapnumwidth}{\mytmplen}
 \settowidth{\mytmplen}{\bfseries\cftfigpresnum\cftfigaftersnum}
 \addtolength{\cftfignumwidth}{\mytmplen}
 \settowidth{\mytmplen}{\bfseries\cfttabpresnum\cfttabaftersnum}
 \addtolength{\cfttabnumwidth}{\mytmplen}
-\makeatletter
-\g@addto@macro\appendix{%
-	\addtocontents{toc}{%
-		\settowidth{\mytmplen}{\bfseries\protect\cftchappresnum\protect\cftchapaftersnum}%
-		\addtolength{\cftchapnumwidth}{-\mytmplen}%
-		\protect\renewcommand{\protect\cftchappresnum}{\appendixname~}%
-		\protect\renewcommand{\protect\cftchapaftersnum}{}%
-		\settowidth{\mytmplen}{\bfseries\protect\cftchappresnum\protect\cftchapaftersnum}%
-		\addtolength{\cftchapnumwidth}{\mytmplen}%
-	}%
-}
-\makeatother
+
