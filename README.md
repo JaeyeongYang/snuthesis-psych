@@ -1,14 +1,13 @@
 # Unofficial LaTeX thesis template for SNU Psychology
 
-Unofficial LaTeX thesis template for the Department of Psychology in Seoul National University.
-*Caution required if you want to use it for yourself*.
+Unofficial LaTeX thesis template for the Department of Psychology in Seoul National University. User caution is required when using it.
 
 The codes are based on [zeta709's unofficial SNU LaTeX template][snuthesis].
 [snuthesis]: https://github.com/zeta709/snuthesis
 
-## Notes
+## Important changes from the original template (`zeta709/snuthesis`)
 
-* This version uses the documentclass of `apa7`, whereas the original version uses `report`.
-* This version uses `subfiles` to handle each section separately.
-* This version uses Korean version for the front cover and approval paper.
+* This version uses the APA (American Psychological Association) style using `apa7` documentclass, whereas the original version uses `report`.
+* This version uses `subfiles` to handle each section separately (stored in the `sections` directory).
+* This version does not fully support the thesis written in Korean, while it uses Korean version for the front cover and approval paper by default.
 * This version uses `biblatex` for citation by default.
