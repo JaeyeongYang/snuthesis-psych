@@ -1,0 +1,130 @@
+% LaTeX 양식 샘플
+\RequirePackage{fix-cm} % documentclass 이전에 넣는다.
+% en : 영문 논문 작성
+% ko : 국문 논문 작성
+% under : 학사
+% master : 석사
+% phd : 박사
+\documentclass[phd,ko]{snuthesis}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[american]{babel}
+\usepackage{kotex}
+\usepackage{csquotes}
+
+\include{snutocstyle} % SNU toc style
+
+% Define important paths as commands
+\providecommand{\rootdir}{.}
+\providecommand{\bibdir}{\rootdir/bibliography}
+\providecommand{\figdir}{\rootdir/figures}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subfiles}
+\usepackage{lipsum} % lorem ipsum
+
+\usepackage[backend=biber,style=apa,sorting=nyt]{biblatex}
+\DeclareLanguageMapping{american}{american-apa}
+\addbibresource{\bibdir/references.bib}
+
+%% \title : 22pt로 나오는 큰 제목
+%% \title* : 16pt로 나오는 작은 제목
+\title{%
+    서울대학교 심리학과 졸업논문을 위한 무작위 제목
+}
+\title*{}
+
+\academicko{심리학}
+\academicen{Psychology}
+
+\schoolko{서울대학교 대학원}
+\schoolen{COLLEGE OF SOCIAL SCIENCE}
+
+\departmentko{심리학과 심리학 전공}
+\departmenten{DEPARTMENT OF PSYCHOLOGY}
+
+%% 저자 이름 Author's(Your) name
+% \author{홍길동}
+% \author*{홍~길~동} % Insert space for Hangul name.
+\author{홍길동}
+\author*{홍~길~동} % Same as \author.
+
+%% 학번 Student number
+\studentnumber{2021-12345}
+
+%% 지도교수님 성함 Advisor's name
+%% (?) Use Korean name for Korean professor.
+\advisor{홍길동}
+\advisor*{홍~길~동} % Insert space for Hangul name.
+
+%% 학위 수여일 Graduation date
+%% 표지에 적히는 날짜.
+%% 학위 수여일이 아니라 논문 발간년도를 적어야 할 수도 있음.
+\graddate{2020~년~2~월}
+\graddateen{Febraury 2020}
+
+%% 논문 제출일 Submission date
+%% (?) Use Korean date format.
+\submissiondate{2019~년~12~월}
+
+%% 논문 인준일 Approval date
+%% (?) Use Korean date format.
+\approvaldate{2019~년~12~월}
+
+%% Note: 인준지의 교수님 성함은
+%% 컴퓨터로 출력하지 않고, 교수님께서
+%% 자필로 쓰시기도 합니다.
+%% Committee members' names
+\committeemembers%
+{교~수~님}%
+{교~수~님}%
+{교~수~님}%
+{교~수~님}%
+{교~수~님}
+
+%% Length of underline
+%\setlength{\committeenameunderlinelength}{7cm}
+
+% Define the local command for subfiles to print bibliography
+\def\biblio{\printbibliography[title=References]}
+
+\begin{document}
+
+% Reset the local command for subfiles to print bibliography
+\def\biblio{}
+
+\pagenumbering{Roman}
+\clearpage
+\makefrontcover
+\makeapproval
+
+\cleardoublepage
+\pagenumbering{roman}
+% 초록 Abstract
+
+\subfile{sections/0-abstract}
+
+\tableofcontents
+\clearpage\listoffigures  % if any figure exists
+\clearpage\listoftables  % if any table exists
+
+\cleardoublepage
+\pagenumbering{arabic}
+
+\subfile{sections/1-introduction}
+\subfile{sections/2-methods}
+\subfile{sections/3-results}
+\subfile{sections/4-discussion}
+
+\clearpage
+\appendix
+\addcontentsline{toc}{section}{Appendix}
+\subfile{appendix/a-simulation}
+
+\subfile{sections/0-abstract-kor}
+\subfile{sections/0-acknowledgement}
+
+\end{document}
+

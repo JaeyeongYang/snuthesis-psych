@@ -154,23 +154,8 @@
 	\else \expandafter\@secondoftwo
 	\fi
 }
-% 예전 버전
-% Usage: \@snu@msphd{M.S.}{Ph.D.}
-%% ProcessOptions 뒤에 나와야 정상적으로 동작한다.
-%\if@snu@under % 학부
-%	\if@snu@ko
-%		\PassOptionsToClass{a4paper,10pt}{report}
-%	\else
-%		\PassOptionsToClass{a4paper,11pt}{report}
-%	\fi
-%\else % 대학원
-%	\PassOptionsToClass{b5paper,11pt}{report}
-%\fi
-%\LoadClass[onecolumn]{report}
 
-% 현재 버전: APA 양식과 합친 버전
-%% 필요시 apa version 변경해줄것 
-\PassOptionsToClass{man,11pt,floatsintext}{apa7}
+\PassOptionsToClass{stu,11pt}{apa7}
 \LoadClass{apa7}
 
 \RequirePackage{fancyhdr}
@@ -225,58 +210,43 @@
 \renewcommand\maketitle{}
 
 %% 여백 설정.
-%% lshort.pdf의 page layout을 참고하면 좋다.
-%% 또는 "latex page layout"정도로 검색하면 된다.
 %% a4paper : 210 mm X 297 mm
 %% B5 (ISO) : 176 mm X 250 mm
 %% B5 (JIS) : 182 mm X 257 mm
 %% 4X6배판 : 188 mm X 258 mm
 %% 학부 양식에서는 A4를 사용한다.
-%% 대학원의 hwp, doc 양식은 B5 (JIS)를 쓰고 있다.
+%% 대학원의 doc 양식은 B5 (JIS)를 쓰고 있다.
 %% LaTeX의 b5paper는 ISO 규격으로 약간 작으므로,
 %% 직접 고쳐준다.
 
-% \if@snu@under
-% 	\setlength{\paperwidth}{210mm}
-% 	\setlength{\paperheight}{297mm}
-% 	\setlength{\textwidth}{160mm} %% 210 mm - (2.5 cm)*2
-% 	\setlength{\textheight}{232mm} %% 297 mm - 3 cm - 3.5 cm
-% 	% 좌우 여백 2.5 cm
-% 	% 상단 여백 3 cm, 하단 여백 3.5 cm
-% \else
-% 	\if@snu@fsbp
-% 		\setlength{\paperwidth}{188mm}
-% 		\setlength{\paperheight}{258mm}
-% 		\setlength{\textwidth}{138mm} %% 188 mm - (2.5 cm)*2
-% 		\setlength{\textheight}{193mm} %% 258 mm - 3 cm - 3.5 cm
-% % 	\else
-\setlength{\paperwidth}{182mm}
-\setlength{\paperheight}{257mm}
-\setlength{\textwidth}{132mm} %% 182 mm - (2.5 cm)*2
-\setlength{\textheight}{192mm} %% 257 mm - 3 cm - 3.5 cm
-% % 	\fi
-% % 	% 좌우 여백 2.5 cm
-% % 	% 상단 여백 3 cm, 하단 여백 3.5 cm
-% % \fi
-%% hoffset, voffset을 직접 바꾸면
-%% 일부 패키지와 잘 안 맞는다.
-%%\setlength{\hoffset}{-1in}
-%%\setlength{\voffset}{-1in}
+\if@snu@under
+	\setlength{\paperwidth}{210mm}
+	\setlength{\paperheight}{297mm}
+	\setlength{\textwidth}{160mm} %% 210 mm - (2.5 cm)*2
+	\setlength{\textheight}{232mm} %% 297 mm - 3 cm - 3.5 cm
+	% 좌우 여백 2.5 cm
+	% 상단 여백 3 cm, 하단 여백 3.5 cm
+\else
+	\setlength{\paperwidth}{182mm}
+	\setlength{\paperheight}{257mm}
+	\setlength{\textwidth}{132mm} %% 182 mm - (2.5 cm)*2
+	\setlength{\textheight}{192mm} %% 257 mm - 3 cm - 3.5 cm
+	% 좌우 여백 2.5 cm
+	% 상단 여백 3 cm, 하단 여백 3.5 cm
+\fi
+\setlength{\hoffset}{-1in}
+\setlength{\voffset}{-1in}
 \setlength{\topmargin}{30mm}
-\addtolength{\topmargin}{-1in}
 \setlength{\headheight}{0mm}
 \setlength{\headsep}{0mm} %% 헤더는 사용하지 않음.
-\addtolength{\marginparwidth}{-1.2cm} %% 안 중요함.
-%\setlength{\marginparsep}{3mm} %% 상관 없음.
+\addtolength{\marginparwidth}{-1.2cm}
 \setlength{\oddsidemargin}{25mm}
-\addtolength{\oddsidemargin}{-1in}
 \setlength{\evensidemargin}{\oddsidemargin}
-\setlength{\footskip}{20mm} % 아래 page number 위치
+\setlength{\footskip}{15mm} % 아래 page number 위치
 \ifpdf
 	\setlength{\pdfpagewidth}{\paperwidth}
 	\setlength{\pdfpageheight}{\paperheight}
 \fi
-\setlength{\parindent}{0.5in}
 
 
 %% 줄간격
@@ -317,7 +287,7 @@
 \def\schoolen#1{\gdef\@snu@school@en{#1}}
 \def\schoolensub#1{\gdef\@snu@school@ensub{#1}} % 불필요?
 \if@snu@under
-	\def\@snu@school@ko{서울대학교 공과대학}
+	\def\@snu@school@ko{서울대학교 사회과학대학}
 \else
 	\def\@snu@school@ko{서울대학교 대학원}
 \fi
@@ -330,18 +300,19 @@
 %% 학부
 \def\departmentko#1{\gdef\@snu@department@ko{#1}}
 \def\departmenten#1{\gdef\@snu@department@en{#1}}
-\def\@snu@department@ko{전기 컴퓨터 공학부}
-\def\@snu@department@en{DEPARTMENT OF ELECTRICAL ENGINEERING AND\\%
-	COMPUTER SCIENCE}
+\def\@snu@department@ko{심리학과}
+\def\@snu@department@en{DEPARTMENT OF PSYCHOLOGY}
 %\@onlypreamble{\departmentko}
 %\@onlypreamble{\departmenten}
 
 %% 이름
-\let\@oldauthor=\author
-\def\author{\@ifstar\@snu@authoralt\@oldauthor}
+% \let\@oldauthor=\author
+\def\author{\@ifstar{\@snu@authoralt}{\@snu@author}}
+\def\@snu@author#1{\gdef\@author{#1}}
+\def\@author{\@latex@error{No \noexpand\author given}\@ehc}
 \def\@snu@authoralt#1{\gdef\@authoralt{#1}}
 \def\@authoralt{\@latex@error{No \noexpand\author* given}\@ehc}
-%\@onlypreamble{\author}
+% \@onlypreamble{\author}
 
 %% 학번
 \def\studentnumber#1{\gdef\@snu@studentnumber{#1}}
@@ -359,6 +330,8 @@
 %% 학위 수여일 - 표자에 들어감
 \def\graddate#1{\gdef\@snu@graddate{#1}}
 \def\@snu@graddate{\@latex@error{No \noexpand\graddate given}\@ehc}
+\def\graddateen#1{\gdef\@snu@graddateen{#1}}
+\def\@snu@graddateen{\@latex@error{No \noexpand\graddateen given}\@ehc}
 %\@onlypreamble{\graddate}
 
 %% 논문 제출일 - 인준지에 들어감 (학사 제외)
@@ -413,10 +386,8 @@
 	\if@twocolumn \@restonecoltrue
 	\else \@restonecolfalse \fi
 	\onecolumn
-	%\enlargethispage{5mm} % removed at version 0.99
 	\thispagestyle{empty}
 	\noindent
-	%\begin{minipage}[][\@snu@covertextheight][s]{\textwidth}
 	\parbox[][\@snu@covertextheight][s]{\textwidth}{%
 		\centering
 		\normalfont
@@ -430,24 +401,24 @@
 			\@title\\
 			\vfill
 			\fontsize{16pt}{16pt}\selectfont
-			\@snu@graddate\\
+			\@snu@koen{\@snu@graddate}{\@snu@graddateen}\\
 			\vspace{4cm}\nointerlineskip
 			\@snu@school@ko\\
 			\vspace{1cm}\nointerlineskip
 			\@snu@department@ko\\
 			\vspace{1cm}\nointerlineskip
-			\@authoralt
+			\@author
 
 		\else % 대학원
 			\fontsize{14pt}{14pt}\selectfont
 			\if@snu@ms
-				% \@snu@koen{\@snu@academic@ko석사학위논문}%
-				% {Master's Thesis of \@snu@academic@en}\\
-				\@snu@academic@ko석사 학위논문\\
+				\@snu@koen{\@snu@academic@ko석사학위논문}%
+				{Master's Thesis of \@snu@academic@en}\\
+				% \@snu@academic@ko석사 학위논문\\
 			\else
-				% \@snu@koen{\@snu@academic@ko박사 학위논문}%
-				% {Ph.D. Dissertation of \@snu@academic@en}\\
-				\@snu@academic@ko박사 학위논문\\
+				\@snu@koen{\@snu@academic@ko박사 학위논문}%
+				{Ph.D. Dissertation of \@snu@academic@en}\\
+				% \@snu@academic@ko박사 학위논문\\
 			\fi
 
 			% Title
@@ -461,25 +432,25 @@
 			\vfill
 			% Graduation date
 			\fontsize{14pt}{14pt}\selectfont
-			\@snu@graddate\\
+			\@snu@koen{\@snu@graddate}{\@snu@graddateen}\\
 			\vspace{4cm}\nointerlineskip
-			% \if@snu@ko
-			\fontsize{16pt}{16pt}\selectfont
-			\@snu@school@ko\\
-
-			\vspace{5mm}\nointerlineskip
-			\fontsize{14pt}{16pt}\selectfont
-			\@snu@department@ko\\
-
-			\vspace{5mm}\nointerlineskip
-			\fontsize{16pt}{16pt}\selectfont
-			\@authoralt
-			% \else
-			% 	\fontsize{14pt}{14pt}\selectfont
-			% 	\@snu@department@en\\
-			% 	\@snu@school@en\\
-			% 	\@snu@school@ensub \\
-			% \fi
+			\if@snu@ko
+    			\fontsize{16pt}{16pt}\selectfont
+    			\@snu@school@ko\\
+    
+    			\vspace{5mm}\nointerlineskip
+    			\fontsize{14pt}{16pt}\selectfont
+    			\@snu@department@ko\\
+    
+    			\vspace{5mm}\nointerlineskip
+    			\fontsize{16pt}{16pt}\selectfont
+    			\@authoralt
+			\else
+				\fontsize{14pt}{14pt}\selectfont
+				\@snu@department@en\\
+				\@snu@school@en\\
+				\@snu@school@ensub \\
+			\fi
 		\fi
 	}
 	%\end{minipage}
@@ -519,24 +490,22 @@
 	\if@twocolumn \@restonecoltrue
 	\else \@restonecolfalse \fi
 	\onecolumn
-	%\enlargethispage{15mm}
 	\enlargethispage{10mm} % modified at version 0.99
 	\thispagestyle{empty}
 	\noindent
-%	\begin{minipage}[][\textheight][s]{\textwidth}
 	\parbox[][\@snu@approvaltextheight][s]{\textwidth}{%
 		\centering
 		\normalfont
 		\linespread{1.3}\selectfont
 		\if@snu@under % 학부
-			\fontsize{21pt}{21pt}\selectfont
+			\fontsize{22pt}{22pt}\selectfont
 			\@title\\
 			\vspace{1cm}\nointerlineskip
 			\fontsize{16pt}{16pt}\selectfont
 			지도교수~\@advisoralt\\
 			\vspace{1cm}\nointerlineskip
-			이~논문을~공학~학사학위~논문으로~제출함\\
-			%\@snu@submissiondate\\
+			이~논문을~심리학학사~학위논문으로~제출함\\
+			\@snu@submissiondate\\
 			\vspace{5cm}\nointerlineskip
 			\@snu@school@ko\\
 			\vspace{1cm}\nointerlineskip
@@ -544,17 +513,15 @@
 			\vspace{0.5cm}\nointerlineskip
 			\@authoralt\\
 			\vfill
-			\@author~의~학사~학위~논문을~인준함\\
+			{\@author}의~심리학학사~학위논문을~인준함\\
 			\vspace{1cm}\nointerlineskip
 			\@snu@approvaldate\\
 			\vspace{1cm}\nointerlineskip
-			지~도~교~수~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~(인)
+			\begin{tabular}[b]{ccl}
+			지도교수 & \committeestyle{\@advisoralt} & (인) \\[.5em]
+			\end{tabular}
 		\else % 대학원
-% 			\if@snu@ko
-				\fontsize{22pt}{22pt}\selectfont
-% 			\else
-% 				\fontsize{16pt}{16pt}\selectfont
-% 			\fi
+			\fontsize{\if@snu@ko 16pt \else 22pt \fi}{22pt}\selectfont
 			\@title\\
 			\vspace{1cm}\nointerlineskip
 			\fontsize{16pt}{16pt}\selectfont
@@ -580,7 +547,7 @@
 			\fontsize{16pt}{16pt}\selectfont
 			\@authoralt\\
 			\vspace{1cm}\nointerlineskip
-			\@author~의 %
+			{\@author}의 %
 			\@snu@academic@ko\@snu@msphd{석사}{박사} %
 			학위논문을 인준함\\
 			\vspace{5mm}\nointerlineskip
@@ -590,9 +557,11 @@
 			\begin{tabular}[b]{ccl}
 			위 \hfill 원 \hfill 장 & \committeestyle{\@snu@committeememberA} & (인) \\[.5em]
 			부위원장               & \committeestyle{\@snu@committeememberB} & (인) \\[.5em]
+			\if@snu@ms
 			위 \hfill 원           & \committeestyle{\@snu@committeememberC} & (인) \\
-			\if@snu@ms\else
-			위 \hfill 원           & \committeestyle{\@snu@committeememberD} & (인) \\
+			\else
+			위 \hfill 원           & \committeestyle{\@snu@committeememberC} & (인) \\[.5em]
+			위 \hfill 원           & \committeestyle{\@snu@committeememberD} & (인) \\[.5em]
 			위 \hfill 원           & \committeestyle{\@snu@committeememberE} & (인) \\
 			\fi
 			\end{tabular}
@@ -607,81 +576,6 @@
 %% minipage와 parbox 중 무엇이 더 나은지 테스트 중.
 }
 
-%% 동의서
-\newcommand{\cl}[1]{\textcircled{\scriptsize #1}}
-\newcommand{\makeagreement}{%
-	\let\oldtheenumii\theenumii
-	\let\oldlabelenumii\labelenumii
-	\renewcommand{\theenumii}{\arabic{enumii}}
-	\renewcommand{\labelenumii}{\cl\theenumii}
-	%
-	\cleardoublepage
-	\if@twocolumn \@restonecoltrue
-	\else \@restonecolfalse \fi
-	\onecolumn
-	\enlargethispage{15mm}
-	\thispagestyle{empty}
-	%\setlength{\parskip}{0pt}
-	\begin{center}
-		\fontsize{15}{15}\selectfont
-		{\bfseries 학위논문 원문제공 서비스에 대한 동의서}\par
-	\end{center}
-
-	\fontsize{12}{12}\selectfont
-	본인의 학위논문에 대하여 서울대학교가 아래와 같이 학위논문 저작물을
-	제공하는 것에 동의합니다.
-	\fontsize{11}{11}\selectfont
-	\begin{enumerate}
-		\item 동의사항
-		\begin{enumerate}
-			\item 본인의 논문을 보존이나 인터넷 등을 통한 온라인 서비스 목적으로
-				복제할 경우 저작물의 내용을 변경하지 않는 범위 내에서의 복제를 허용합니다. 
-			\item 본인의 논문을 디지털화하여 인터넷 등 정보통신망을 통한 논문의
-				일부 또는 전부의 복제$\cdot$배포 및 전송 시 무료로 제공하는 것에 동의합니다. 
-		\end{enumerate}
-		\item 개인(저작자)의 의무\par
-			본 논문의 저작권을 타인에게 양도하거나 또는 출판을 허락하는 등
-			동의 내용을 변경하고자 할 때는 소속대학(원)에 공개의 유보 또는 해지를 즉시 통보하겠습니다.
-		\item 서울대학교의 의무
-		\begin{enumerate}
-			\item 서울대학교는 본 논문을 외부에 제공할 경우 저작권 보호장치(DRM)를 사용하여야 합니다. 
-			\item 서울대학교는 본 논문에 대한 공개의 유보나 해지 신청 시 즉시 처리해야 합니다. 
-		\end{enumerate}
-	\end{enumerate}
-	\null\vfill
-	\fontsize{12}{12}\selectfont
-	\begin{flushleft}
-		논문 제목 : \@title \par
-	\end{flushleft}
-	\fontsize{11}{11}\selectfont
-	\begin{flushright}
-		\vspace{11pt}
-		$\vbox{
-			\halign{
-			## & : ## \hfill \cr
-			학\hfill위\hfill구\hfill분	& {\bfseries {\if@snu@ms 석사 \else 박사 \fi}}\cr
-			학\hfill과			& {\@snu@department@ko}\cr
-			학\hfill번			& {\@snu@studentnumber}\cr
-			연\hfill락\hfill처		& {\@snu@phonenumber}\cr
-			저\hfill작\hfill자		& {\@author \hspace*{20mm}\small{(인)}}\cr
-		}}$
-	\end{flushright}
-	\begin{center}
-		제~출~일~:~\@snu@agreementdate \par
-		\fontsize{13}{13}\selectfont
-		{\bfseries 서울대학교총장 귀하}
-	\end{center}
-	%
-	\newpage
-	\if@restonecol \twocolumn \fi
-	%
-	\let\theenumii\oldtheenumii
-	\let\labelenumii\oldlabelenumii
-}
-
-
-
-%%\newcommand{\@lastPage}{\pageref{paperlastpagelabel}}
 
 %% keyword
 \newcommand{\@snu@keyword}{}
