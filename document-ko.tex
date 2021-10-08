@@ -13,8 +13,6 @@
 \usepackage{kotex}
 \usepackage{csquotes}
 
-\include{snutocstyle} % SNU toc style
-
 % Define important paths as commands
 \providecommand{\rootdir}{.}
 \providecommand{\bibdir}{\rootdir/bibliography}
@@ -25,16 +23,20 @@
 \usepackage{subfiles}
 \usepackage{lipsum} % lorem ipsum
 
-\usepackage[backend=biber,style=apa,sorting=nyt]{biblatex}
 \DeclareLanguageMapping{american}{american-apa}
 \addbibresource{\bibdir/references.bib}
 
 %% \title : 22pt로 나오는 큰 제목
 %% \title* : 16pt로 나오는 작은 제목
+%% 줄바꿈이 필요할 경우 mbox로 묶어준 뒤 개행
+% \mbox{불확실 상황에서의 선택 과제의 효율적인 파라미터 추정:}\\
+% \mbox{기록-기반 제한을 더한 적응적 설계 최적화를 이용하여}
 \title{%
     서울대학교 심리학과 졸업논문을 위한 무작위 제목
 }
-\title*{}
+\title*{%
+    Random title for SNU Department of Psychology
+}
 
 \academicko{심리학}
 \academicen{Psychology}
@@ -104,7 +106,7 @@
 \pagenumbering{roman}
 % 초록 Abstract
 
-\subfile{sections/0-abstract}
+\subfile{sections/0-abstract-ko}
 
 \tableofcontents
 \clearpage\listoffigures  % if any figure exists
@@ -113,17 +115,17 @@
 \cleardoublepage
 \pagenumbering{arabic}
 
-\subfile{sections/1-introduction}
-\subfile{sections/2-methods}
-\subfile{sections/3-results}
-\subfile{sections/4-discussion}
+\subfile{sections/1-intro-ko}
+\subfile{sections/2-methods-ko}
+\subfile{sections/3-results-ko}
+\subfile{sections/4-discussion-ko}
 
-\clearpage
+\printbibliography[title=참고문헌]
+
 \appendix
-\addcontentsline{toc}{section}{Appendix}
-\subfile{appendix/a-simulation}
+\subfile{sections/a-simulation-ko}
 
-\subfile{sections/0-abstract-kor}
+\subfile{sections/0-abstract-en}
 \subfile{sections/0-acknowledgement}
 
 \end{document}

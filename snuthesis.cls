@@ -125,6 +125,7 @@
 \DeclareOption{doctor}{\@snu@underfalse \@snu@msfalse \@snu@phdtrue}
 
 \DeclareOption{ko}{\@snu@kotrue}
+\DeclareOption{en}{\@snu@kofalse}
 \DeclareOption{indentfirst}{\@snu@indentfirsttrue \@snu@indentoptionsettrue}
 \DeclareOption{noindentfirst}{\@snu@indentfirstfalse \@snu@indentoptionsettrue}
 \DeclareOption{easy}{\@snu@easytrue}
@@ -143,19 +144,19 @@
 %% "\if@snu@ko"는 한글 논문을 의미함. 
 
 \newcommand{\@snu@koen}{%
-	\if@snu@ko \expandafter\@firstoftwo
-	\else \expandafter\@secondoftwo
-	\fi
+    \if@snu@ko \expandafter\@firstoftwo
+    \else \expandafter\@secondoftwo
+    \fi
 }
 % Usage: \@snu@koen{한글}{English}
 
 \newcommand{\@snu@msphd}{%
-	\if@snu@ms \expandafter\@firstoftwo
-	\else \expandafter\@secondoftwo
-	\fi
+    \if@snu@ms \expandafter\@firstoftwo
+    \else \expandafter\@secondoftwo
+    \fi
 }
 
-\PassOptionsToClass{stu,11pt}{apa7}
+\PassOptionsToClass{doc,11pt,biblatex}{apa7}
 \LoadClass{apa7}
 
 \RequirePackage{fancyhdr}
@@ -163,45 +164,62 @@
 \rhead{}
 \pagestyle{plain}
 
+\if@snu@ko
+    \PassOptionsToPackage{finemath,nonfrench}{kotex}
+\fi
 \RequirePackage{kotex} %% 국문 초록 때문에 필요하다.
 
-%% The UK TeX FAQ
-%% Your 437 Questions Answered
-%% version 3.19a, date 2009-06-13, p. 211.
-%\renewcommand{\abstractname}{Abstract} %
-%\renewcommand{\alsoname}{see also} % (makeidx package)
-%\renewcommand{\appendixname}{Appendix} %
-%\renewcommand{\bibname}{Bibliography} % (report,book)
-%\renewcommand{\ccname}{cc} % (letter)
-%\renewcommand{\chaptername}{} % (report,book)
-\renewcommand{\contentsname}{Contents} %
-%\renewcommand{\enclname}{encl} % (letter)
-%\renewcommand{\figurename}{Figure} % (for captions)
-%\renewcommand{\headtoname}{To} % (letter)
-%\renewcommand{\indexname}{Index} %
-%\renewcommand{\listfigurename}{List of Figures} %
-%\renewcommand{\listtablename}{List of Tables} %
-%\renewcommand{\pagename}{Page} % (letter)
-%\renewcommand{\partname}{Part} %
-%\renewcommand{\refname}{References} % (article)
-%\renewcommand{\seename}{see} % (makeidx package)
-%\renewcommand{\tablename}{Table} % (for caption)
-\renewcommand{\keywordname}{Keywords}
-\newcommand{\keywordnamealt}{주요어}
-\newcommand{\studentnumbername}{Student Number}
-\newcommand{\studentnumbernamealt}{학번}
-\newcommand{\abstractnamealt}{국문초록}
-\newcommand{\acknowledgementname}{감사의 글}
+\RequirePackage{sectsty}
+\sectionfont{\clearpage\fontsize{16pt}{16pt}\selectfont\centering}
+\subsectionfont{\fontsize{14pt}{14pt}\selectfont}
 
-\if@snu@indentoptionset
-    \if@snu@indentfirst
-	\RequirePackage{indentfirst}
-    \fi
+\PassOptionsToPackage{titles}{tocloft}
+\RequirePackage{tocloft} % when you don't use subfigure package
+
+\if@snu@ko
+    \renewcommand\cftfigpresnum{그림~}
+    \renewcommand\cfttabpresnum{표~}
 \else
-    \if@snu@ko
-	\RequirePackage{indentfirst}
-    \fi
+    \renewcommand\cftfigpresnum{Figure~}
+    \renewcommand\cfttabpresnum{Table~}
 \fi
+\newlength{\mytmplen}
+\settowidth{\mytmplen}{\bfseries\cftfigpresnum\cftfigaftersnum}
+\addtolength{\cftfignumwidth}{\mytmplen}
+\settowidth{\mytmplen}{\bfseries\cfttabpresnum\cfttabaftersnum}
+\addtolength{\cfttabnumwidth}{\mytmplen}
+
+\if@snu@ko
+    \renewcommand{\figurename}{그림}
+    \renewcommand{\tablename}{표}
+    \renewcommand{\contentsname}{목차}
+    \renewcommand{\listfigurename}{그림 목차}
+    \renewcommand{\listtablename}{표 목차}
+    \newcommand{\appendixnamelocal}{부록}
+    \newcommand{\abstractnameko}{국문초록}
+    \newcommand{\abstractnameen}{영문초록}
+    \newcommand{\acknowledgementname}{감사의 글}
+\else
+    \newcommand{\appendixnamelocal}{Appendix}
+    \newcommand{\abstractnameko}{Abstract in Korean}
+    \newcommand{\abstractnameen}{Abstract}
+    \newcommand{\acknowledgementname}{Acknowledgement}
+\fi
+\newcommand{\keywordnameen}{Keywords}
+\newcommand{\keywordnameko}{주요어}
+\newcommand{\studentnumbernameko}{학번}
+\newcommand{\studentnumbernameen}{Student Number}
+
+\RequirePackage{indentfirst}
+% \if@snu@indentoptionset
+%     \if@snu@indentfirst
+% 	\RequirePackage{indentfirst}
+%     \fi
+% \else
+%     \if@snu@ko
+% 	\RequirePackage{indentfirst}
+%     \fi
+% \fi
 
 \RequirePackage{ifpdf}
 
@@ -220,19 +238,19 @@
 %% 직접 고쳐준다.
 
 \if@snu@under
-	\setlength{\paperwidth}{210mm}
-	\setlength{\paperheight}{297mm}
-	\setlength{\textwidth}{160mm} %% 210 mm - (2.5 cm)*2
-	\setlength{\textheight}{232mm} %% 297 mm - 3 cm - 3.5 cm
-	% 좌우 여백 2.5 cm
-	% 상단 여백 3 cm, 하단 여백 3.5 cm
+    \setlength{\paperwidth}{210mm}
+    \setlength{\paperheight}{297mm}
+    \setlength{\textwidth}{160mm} %% 210 mm - (2.5 cm)*2
+    \setlength{\textheight}{232mm} %% 297 mm - 3 cm - 3.5 cm
+    % 좌우 여백 2.5 cm
+    % 상단 여백 3 cm, 하단 여백 3.5 cm
 \else
-	\setlength{\paperwidth}{182mm}
-	\setlength{\paperheight}{257mm}
-	\setlength{\textwidth}{132mm} %% 182 mm - (2.5 cm)*2
-	\setlength{\textheight}{192mm} %% 257 mm - 3 cm - 3.5 cm
-	% 좌우 여백 2.5 cm
-	% 상단 여백 3 cm, 하단 여백 3.5 cm
+    \setlength{\paperwidth}{182mm}
+    \setlength{\paperheight}{257mm}
+    \setlength{\textwidth}{132mm} %% 182 mm - (2.5 cm)*2
+    \setlength{\textheight}{192mm} %% 257 mm - 3 cm - 3.5 cm
+    % 좌우 여백 2.5 cm
+    % 상단 여백 3 cm, 하단 여백 3.5 cm
 \fi
 \setlength{\hoffset}{-1in}
 \setlength{\voffset}{-1in}
@@ -244,8 +262,8 @@
 \setlength{\evensidemargin}{\oddsidemargin}
 \setlength{\footskip}{15mm} % 아래 page number 위치
 \ifpdf
-	\setlength{\pdfpagewidth}{\paperwidth}
-	\setlength{\pdfpageheight}{\paperheight}
+    \setlength{\pdfpagewidth}{\paperwidth}
+    \setlength{\pdfpageheight}{\paperheight}
 \fi
 
 
@@ -287,9 +305,9 @@
 \def\schoolen#1{\gdef\@snu@school@en{#1}}
 \def\schoolensub#1{\gdef\@snu@school@ensub{#1}} % 불필요?
 \if@snu@under
-	\def\@snu@school@ko{서울대학교 사회과학대학}
+    \def\@snu@school@ko{서울대학교 사회과학대학}
 \else
-	\def\@snu@school@ko{서울대학교 대학원}
+    \def\@snu@school@ko{서울대학교 대학원}
 \fi
 \def\@snu@school@en{COLLEGE OF ENGINEERING}
 \def\@snu@school@ensub{SEOUL NATIONAL UNIVERSITY}
@@ -346,11 +364,11 @@
 
 %% 위원장, 부위원장, 위원
 \def\committeemembers#1#2#3#4#5{%
-	\gdef\@snu@committeememberA{#1}
-	\gdef\@snu@committeememberB{#2}
-	\gdef\@snu@committeememberC{#3}
-	\gdef\@snu@committeememberD{#4}
-	\gdef\@snu@committeememberE{#5}
+    \gdef\@snu@committeememberA{#1}
+    \gdef\@snu@committeememberB{#2}
+    \gdef\@snu@committeememberC{#3}
+    \gdef\@snu@committeememberD{#4}
+    \gdef\@snu@committeememberE{#5}
 }
 \def\@snu@committeememberA{}
 \def\@snu@committeememberB{}
@@ -378,88 +396,88 @@
 \setlength{\@snu@covertextheight}{\textheight}
 %\addtolength{\@snu@covertextheight}{5mm} % removed at version 0.99
 \newcommand{\makefrontcover}{%
-	%% 여백 재조정
-	\cleardoublepage
-	\addtolength{\textwidth}{10mm}
-	\addtolength{\oddsidemargin}{-5mm}
-	\addtolength{\evensidemargin}{-5mm}
-	\if@twocolumn \@restonecoltrue
-	\else \@restonecolfalse \fi
-	\onecolumn
-	\thispagestyle{empty}
-	\noindent
-	\parbox[][\@snu@covertextheight][s]{\textwidth}{%
-		\centering
-		\normalfont
-		\linespread{1.3}\selectfont
+    %% 여백 재조정
+    \cleardoublepage
+    \addtolength{\textwidth}{10mm}
+    \addtolength{\oddsidemargin}{-5mm}
+    \addtolength{\evensidemargin}{-5mm}
+    \if@twocolumn \@restonecoltrue
+    \else \@restonecolfalse \fi
+    \onecolumn
+    \thispagestyle{empty}
+    \noindent
+    \parbox[][\@snu@covertextheight][s]{\textwidth}{%
+        \centering
+        \normalfont
+        \linespread{1.3}\selectfont
 
-		\if@snu@under % 학부
-			\fontsize{16pt}{16pt}\selectfont
-			심리학학사학위논문\\
-			\vspace{2cm}\nointerlineskip
-			\fontsize{21pt}{21pt}\selectfont
-			\@title\\
-			\vfill
-			\fontsize{16pt}{16pt}\selectfont
-			\@snu@koen{\@snu@graddate}{\@snu@graddateen}\\
-			\vspace{4cm}\nointerlineskip
-			\@snu@school@ko\\
-			\vspace{1cm}\nointerlineskip
-			\@snu@department@ko\\
-			\vspace{1cm}\nointerlineskip
-			\@author
+        \if@snu@under % 학부
+            \fontsize{16pt}{16pt}\selectfont
+            심리학학사학위논문\\
+            \vspace{2cm}\nointerlineskip
+            \fontsize{21pt}{21pt}\selectfont
+            \@title\\
+            \vfill
+            \fontsize{16pt}{16pt}\selectfont
+            \@snu@koen{\@snu@graddate}{\@snu@graddateen}\\
+            \vspace{4cm}\nointerlineskip
+            \@snu@school@ko\\
+            \vspace{1cm}\nointerlineskip
+            \@snu@department@ko\\
+            \vspace{1cm}\nointerlineskip
+            \@author
 
-		\else % 대학원
-			\fontsize{14pt}{14pt}\selectfont
-			\if@snu@ms
-				\@snu@koen{\@snu@academic@ko석사학위논문}%
-				{Master's Thesis of \@snu@academic@en}\\
-				% \@snu@academic@ko석사 학위논문\\
-			\else
-				\@snu@koen{\@snu@academic@ko박사 학위논문}%
-				{Ph.D. Dissertation of \@snu@academic@en}\\
-				% \@snu@academic@ko박사 학위논문\\
-			\fi
+        \else % 대학원
+            \fontsize{14pt}{14pt}\selectfont
+            \if@snu@ms
+                \@snu@koen{\@snu@academic@ko석사학위논문}%
+                {Master's Thesis of \@snu@academic@en}\\
+                % \@snu@academic@ko석사 학위논문\\
+            \else
+                \@snu@koen{\@snu@academic@ko박사 학위논문}%
+                {Ph.D. Dissertation of \@snu@academic@en}\\
+                % \@snu@academic@ko박사 학위논문\\
+            \fi
 
-			% Title
-			\vspace{2cm}\nointerlineskip
-			\fontsize{22pt}{22pt}\selectfont
-			\@title\\
-			% Alternative title
-			\vspace{1cm}\nointerlineskip
-			\fontsize{16pt}{16pt}\selectfont
-			\@titlealt\\
-			\vfill
-			% Graduation date
-			\fontsize{14pt}{14pt}\selectfont
-			\@snu@koen{\@snu@graddate}{\@snu@graddateen}\\
-			\vspace{4cm}\nointerlineskip
-			\if@snu@ko
-    			\fontsize{16pt}{16pt}\selectfont
-    			\@snu@school@ko\\
+            % Title
+            \vspace{2cm}\nointerlineskip
+            \fontsize{22pt}{22pt}\selectfont
+            \@title\\
+            % Alternative title
+            \vspace{1cm}\nointerlineskip
+            \fontsize{16pt}{16pt}\selectfont
+            \@titlealt\\
+            \vfill
+            % Graduation date
+            \fontsize{14pt}{14pt}\selectfont
+            \@snu@koen{\@snu@graddate}{\@snu@graddateen}\\
+            \vspace{4cm}\nointerlineskip
+            \if@snu@ko
+                \fontsize{16pt}{16pt}\selectfont
+                \@snu@school@ko\\
     
-    			\vspace{5mm}\nointerlineskip
-    			\fontsize{14pt}{16pt}\selectfont
-    			\@snu@department@ko\\
+                \vspace{5mm}\nointerlineskip
+                \fontsize{14pt}{16pt}\selectfont
+                \@snu@department@ko\\
     
-    			\vspace{5mm}\nointerlineskip
-    			\fontsize{16pt}{16pt}\selectfont
-    			\@authoralt
-			\else
-				\fontsize{14pt}{14pt}\selectfont
-				\@snu@department@en\\
-				\@snu@school@en\\
-				\@snu@school@ensub \\
-			\fi
-		\fi
-	}
-	%\end{minipage}
-	%% 여백 원래대로
-	\newpage
-	\addtolength{\textwidth}{-10mm}
-	\addtolength{\oddsidemargin}{5mm}
-	\addtolength{\evensidemargin}{5mm}
-	\if@restonecol \twocolumn \fi
+                \vspace{5mm}\nointerlineskip
+                \fontsize{16pt}{16pt}\selectfont
+                \@authoralt
+            \else
+                \fontsize{14pt}{14pt}\selectfont
+                \@snu@department@en\\
+                \@snu@school@en\\
+                \@snu@school@ensub \\
+            \fi
+        \fi
+    }
+    %\end{minipage}
+    %% 여백 원래대로
+    \newpage
+    \addtolength{\textwidth}{-10mm}
+    \addtolength{\oddsidemargin}{5mm}
+    \addtolength{\evensidemargin}{5mm}
+    \if@restonecol \twocolumn \fi
 %% 참고사항
 %% center enviornment를 사용하면 하단 여백이 안 맞음.
 %% 여백 설정이 조금만 어긋나면 페이지가 인쇄되지 않음.
@@ -478,98 +496,98 @@
 \newlength{\@snu@underlinetmp}
 \newlength{\@snu@underlinetmpb}
 \newcommand{\committeestyle}[1]{%
-	\setlength{\@snu@underlinetmp}{\committeenameunderlinelength}%
-	\settowidth{\@snu@underlinetmpb}{#1}%
-	\addtolength{\@snu@underlinetmp}{-\@snu@underlinetmpb}%
-	\divide \@snu@underlinetmp by 2 %
-	\underline{\hspace{\@snu@underlinetmp}#1\hspace{\@snu@underlinetmp}}%
+    \setlength{\@snu@underlinetmp}{\committeenameunderlinelength}%
+    \settowidth{\@snu@underlinetmpb}{#1}%
+    \addtolength{\@snu@underlinetmp}{-\@snu@underlinetmpb}%
+    \divide \@snu@underlinetmp by 2 %
+    \underline{\hspace{\@snu@underlinetmp}#1\hspace{\@snu@underlinetmp}}%
 }
 %\newcommand{\@snu@nameline}{\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}
 \newcommand{\makeapproval}{%
-	\cleardoublepage
-	\if@twocolumn \@restonecoltrue
-	\else \@restonecolfalse \fi
-	\onecolumn
-	\enlargethispage{10mm} % modified at version 0.99
-	\thispagestyle{empty}
-	\noindent
-	\parbox[][\@snu@approvaltextheight][s]{\textwidth}{%
-		\centering
-		\normalfont
-		\linespread{1.3}\selectfont
-		\if@snu@under % 학부
-			\fontsize{22pt}{22pt}\selectfont
-			\@title\\
-			\vspace{1cm}\nointerlineskip
-			\fontsize{16pt}{16pt}\selectfont
-			지도교수~\@advisoralt\\
-			\vspace{1cm}\nointerlineskip
-			이~논문을~심리학학사~학위논문으로~제출함\\
-			\@snu@submissiondate\\
-			\vspace{5cm}\nointerlineskip
-			\@snu@school@ko\\
-			\vspace{1cm}\nointerlineskip
-			\@snu@department@ko\\
-			\vspace{0.5cm}\nointerlineskip
-			\@authoralt\\
-			\vfill
-			{\@author}의~심리학학사~학위논문을~인준함\\
-			\vspace{1cm}\nointerlineskip
-			\@snu@approvaldate\\
-			\vspace{1cm}\nointerlineskip
-			\begin{tabular}[b]{ccl}
-			지도교수 & \committeestyle{\@advisoralt} & (인) \\[.5em]
-			\end{tabular}
-		\else % 대학원
-			\fontsize{\if@snu@ko 16pt \else 22pt \fi}{22pt}\selectfont
-			\@title\\
-			\vspace{1cm}\nointerlineskip
-			\fontsize{16pt}{16pt}\selectfont
-			\@titlealt\\
-			\vspace{1cm}\nointerlineskip
-			\fontsize{14pt}{14pt}\selectfont
-			지도교수 \@advisoralt\\
-			\vspace{5mm}\nointerlineskip
-			\fontsize{16pt}{16pt}\selectfont
-			이 논문을 %
-			\@snu@academic@ko\@snu@msphd{석사}{박사} %
-			학위논문으로 제출함\\
-			\vspace{5mm}\nointerlineskip
-			\fontsize{14pt}{14pt}\selectfont
-			\@snu@submissiondate\\
-			\vspace{1cm}\nointerlineskip
-			\fontsize{16pt}{16pt}\selectfont
-			\@snu@school@ko\\
-			\vspace{5mm}\nointerlineskip
-			\fontsize{14pt}{14pt}\selectfont
-			\@snu@department@ko\\
-			\vspace{5mm}\nointerlineskip
-			\fontsize{16pt}{16pt}\selectfont
-			\@authoralt\\
-			\vspace{1cm}\nointerlineskip
-			{\@author}의 %
-			\@snu@academic@ko\@snu@msphd{석사}{박사} %
-			학위논문을 인준함\\
-			\vspace{5mm}\nointerlineskip
-			\fontsize{14pt}{14pt}\selectfont
-			\@snu@approvaldate\\
-			\vfill
-			\begin{tabular}[b]{ccl}
-			위 \hfill 원 \hfill 장 & \committeestyle{\@snu@committeememberA} & (인) \\[.5em]
-			부위원장               & \committeestyle{\@snu@committeememberB} & (인) \\[.5em]
-			\if@snu@ms
-			위 \hfill 원           & \committeestyle{\@snu@committeememberC} & (인) \\
-			\else
-			위 \hfill 원           & \committeestyle{\@snu@committeememberC} & (인) \\[.5em]
-			위 \hfill 원           & \committeestyle{\@snu@committeememberD} & (인) \\[.5em]
-			위 \hfill 원           & \committeestyle{\@snu@committeememberE} & (인) \\
-			\fi
-			\end{tabular}
-		\fi
-	}
+    \cleardoublepage
+    \if@twocolumn \@restonecoltrue
+    \else \@restonecolfalse \fi
+    \onecolumn
+    \enlargethispage{10mm} % modified at version 0.99
+    \thispagestyle{empty}
+    \noindent
+    \parbox[][\@snu@approvaltextheight][s]{\textwidth}{%
+        \centering
+        \normalfont
+        \linespread{1.3}\selectfont
+        \if@snu@under % 학부
+            \fontsize{22pt}{22pt}\selectfont
+            \@title\\
+            \vspace{1cm}\nointerlineskip
+            \fontsize{16pt}{16pt}\selectfont
+            지도교수~\@advisoralt\\
+            \vspace{1cm}\nointerlineskip
+            이~논문을~심리학학사~학위논문으로~제출함\\
+            \@snu@submissiondate\\
+            \vspace{5cm}\nointerlineskip
+            \@snu@school@ko\\
+            \vspace{1cm}\nointerlineskip
+            \@snu@department@ko\\
+            \vspace{0.5cm}\nointerlineskip
+            \@authoralt\\
+            \vfill
+            {\@author}의~심리학학사~학위논문을~인준함\\
+            \vspace{1cm}\nointerlineskip
+            \@snu@approvaldate\\
+            \vspace{1cm}\nointerlineskip
+            \begin{tabular}[b]{ccl}
+            지도교수 & \committeestyle{\@advisoralt} & (인) \\[.5em]
+            \end{tabular}
+        \else % 대학원
+            \fontsize{\if@snu@ko 16pt \else 22pt \fi}{22pt}\selectfont
+            \@title\\
+            \vspace{1cm}\nointerlineskip
+            \fontsize{16pt}{16pt}\selectfont
+            \@titlealt\\
+            \vspace{1cm}\nointerlineskip
+            \fontsize{14pt}{14pt}\selectfont
+            지도교수 \@advisoralt\\
+            \vspace{5mm}\nointerlineskip
+            \fontsize{16pt}{16pt}\selectfont
+            이 논문을 %
+            \@snu@academic@ko\@snu@msphd{석사}{박사} %
+            학위논문으로 제출함\\
+            \vspace{5mm}\nointerlineskip
+            \fontsize{14pt}{14pt}\selectfont
+            \@snu@submissiondate\\
+            \vspace{1cm}\nointerlineskip
+            \fontsize{16pt}{16pt}\selectfont
+            \@snu@school@ko\\
+            \vspace{5mm}\nointerlineskip
+            \fontsize{14pt}{14pt}\selectfont
+            \@snu@department@ko\\
+            \vspace{5mm}\nointerlineskip
+            \fontsize{16pt}{16pt}\selectfont
+            \@authoralt\\
+            \vspace{1cm}\nointerlineskip
+            {\@author}의 %
+            \@snu@academic@ko\@snu@msphd{석사}{박사} %
+            학위논문을 인준함\\
+            \vspace{5mm}\nointerlineskip
+            \fontsize{14pt}{14pt}\selectfont
+            \@snu@approvaldate\\
+            \vfill
+            \begin{tabular}[b]{ccl}
+            위 \hfill 원 \hfill 장 & \committeestyle{\@snu@committeememberA} & (인) \\[.5em]
+            부위원장               & \committeestyle{\@snu@committeememberB} & (인) \\[.5em]
+            \if@snu@ms
+            위 \hfill 원           & \committeestyle{\@snu@committeememberC} & (인) \\
+            \else
+            위 \hfill 원           & \committeestyle{\@snu@committeememberC} & (인) \\[.5em]
+            위 \hfill 원           & \committeestyle{\@snu@committeememberD} & (인) \\[.5em]
+            위 \hfill 원           & \committeestyle{\@snu@committeememberE} & (인) \\
+            \fi
+            \end{tabular}
+        \fi
+    }
 %	\end{minipage}
-	\newpage
-	\if@restonecol \twocolumn \fi
+    \newpage
+    \if@restonecol \twocolumn \fi
 %% 참고사항
 %% center enviornment를 사용하면 하단 여백이 안 맞음.
 %% 여백 설정이 조금만 어긋나면 페이지가 인쇄되지 않음.
@@ -578,87 +596,87 @@
 
 
 %% keyword
-\newcommand{\@snu@keyword}{}
-\newcommand{\keyword}[1]{\renewcommand{\@snu@keyword}{#1}}
+\newcommand{\@snu@keyworden}{}
+\newcommand{\keyworden}[1]{\renewcommand{\@snu@keyworden}{#1}}
 
 \def\phantomsection{}
 
 %% abstract
-\renewenvironment{abstract}{%
-	\cleardoublepage
-	\@afterindentfalse
-	\phantomsection
-	\addcontentsline{toc}{section}{\abstractname}
-	{%
-		\centering
-		\normalfont
-		\linespread{1.0}
-		\fontsize{22pt}{22pt}\selectfont
-		\textbf{\abstractname}\par\nobreak
-	}
-	\vspace{2cm}
-	\@afterheading
+\newenvironment{abstracten}{%
+    \cleardoublepage
+    \@afterindentfalse
+    \phantomsection
+    \addcontentsline{toc}{section}{\abstractnameen}
+    {%
+        \centering
+        \normalfont
+        \linespread{1.0}
+        \fontsize{16pt}{16pt}\selectfont
+        \textbf{\abstractnameen}\par\nobreak
+    }
+    \vspace{2cm}
+    \@afterheading
 }{%
-	\vfill\vspace*{\fill}
-	% better than "\vfill", "\null\vfill", \vspace*{0pt}\vfill", etc.
-	\noindent
-	{\bfseries \keywordname}:~\@snu@keyword
-	\if@snu@under\else
-	\\
-	\noindent
-	{\bfseries \studentnumbername}:~\@snu@studentnumber
-	\fi
-	\newpage
+    \vfill\vspace*{\fill}
+    % better than "\vfill", "\null\vfill", \vspace*{0pt}\vfill", etc.
+    \noindent
+    {\bfseries \keywordnameen}:~\@snu@keyworden
+    \if@snu@under\else
+    \\
+    \noindent
+    {\bfseries \studentnumbernameen}:~\@snu@studentnumber
+    \fi
+    \newpage
 }
 
 %% keywordalt
-\newcommand{\@snu@keywordalt}{}
-\newcommand{\keywordalt}[1]{\renewcommand{\@snu@keywordalt}{#1}}
+\newcommand{\@snu@keywordko}{}
+\newcommand{\keywordko}[1]{\renewcommand{\@snu@keywordko}{#1}}
 
 %% abstractalt
-\newenvironment{abstractalt}%
+\newenvironment{abstractko}%
 {%
-	\cleardoublepage
-	\@afterindentfalse
-	\phantomsection
-	\addcontentsline{toc}{section}{\abstractnamealt}
-	{%
-		\centering
-		\normalfont
-		\linespread{1.0}
-		\fontsize{16pt}{16pt}\selectfont
-		\textbf{\abstractnamealt}\par\nobreak
-	}
-	\vspace{2cm}
-	\@afterheading
+    \cleardoublepage
+    \@afterindentfalse
+    \phantomsection
+    \addcontentsline{toc}{section}{\abstractnameko}
+    {%
+        \centering
+        \normalfont
+        \linespread{1.0}
+        \fontsize{16pt}{16pt}\selectfont
+        \textbf{\abstractnameko}\par\nobreak
+    }
+    \vspace{2cm}
+    \@afterheading
 }{%
-	\vfill\vspace*{\fill}
-	% better than "\vfill", "\null\vfill", \vspace*{0pt}\vfill", etc.
-	\noindent
-	{\bfseries \keywordnamealt}:~\@snu@keywordalt
-	\if@snu@under\else
-	\\
-	\noindent
-	{\bfseries \studentnumbernamealt}:~\@snu@studentnumber
-	\fi
-  	\newpage
+    \vfill\vspace*{\fill}
+    % better than "\vfill", "\null\vfill", \vspace*{0pt}\vfill", etc.
+    \noindent
+    {\bfseries \keywordnameko}:~\@snu@keywordko
+    \if@snu@under\else
+    \\
+    \noindent
+    {\bfseries \studentnumbernameko}:~\@snu@studentnumber
+    \fi
+      \newpage
 }
 
 %% 감사의 글
 \newcommand{\acknowledgement}{%
-	\cleardoublepage
-	\@afterindentfalse
-	\phantomsection
-	\addcontentsline{toc}{section}{\acknowledgementname}
-	{%
-		\centering
-		\normalfont
-		\linespread{1.0}
-		\fontsize{16pt}{16pt}\selectfont
-		\textbf{\acknowledgementname}\par\nobreak
-	}
-	\vspace{2cm}
-	\@afterheading
+    \cleardoublepage
+    \@afterindentfalse
+    \phantomsection
+    \addcontentsline{toc}{section}{\acknowledgementname}
+    {%
+        \centering
+        \normalfont
+        \linespread{1.0}
+        \fontsize{16pt}{16pt}\selectfont
+        \textbf{\acknowledgementname}\par\nobreak
+    }
+    \vspace{2cm}
+    \@afterheading
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -685,27 +703,80 @@
 %  \vskip\belowcaptionskip}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% APA7 documentclass Appendix Section 스타일 변경
+
+\renewcommand{\theappendix}{\@Alph\c@appendix}
+\def\apaSevenappfig{%
+    \renewcommand\thefigure{\theappendix\@arabic\c@figure}%
+    \ifapamodeman{\renewcommand\thepostfig{\theappendix\arabic{postfig}}}{}}
+\def\apaSevenapptab{%
+    \renewcommand\thetable{\theappendix\@arabic\c@table}%
+    \ifapamodeman{\renewcommand\theposttbl{\theappendix\arabic{posttbl}}}{}}
+\def\apaSevenappeq{%
+    \renewcommand\theequation{\theappendix\@arabic\c@equation}}
+\newif\ifoneappendix
+\oneappendixtrue % one appendix by default
+\newif\ifappendix
+\appendixfalse
+
+\renewcommand{\appendix}{
+    \ifapamodeman{\processdelayedfloats}{}%  BDB -- output all tables and figures prior to the appendix
+    \appendixtrue
+    \apaSevenappfig
+    \apaSevenapptab
+    \apaSevenappeq
+
+    \let\old@apaSeven@section=\section
+    \long\def\section##1{
+        \makeatletter
+            \def\@currentlabelname{##1}
+        \makeatother
+        \ifapamodeman{%
+            \clearpage
+            \setcounter{postfig}{0}
+            \setcounter{posttbl}{0}
+        }{}
+        \setcounter{figure}{0}
+        \setcounter{table}{0}
+        \setcounter{equation}{0}
+        \vskip2.5ex
+        \refstepcounter{appendix}
+
+        \ifnum\c@appendix>1\immediate\write\@auxout{\global\string\oneappendixfalse}\fi
+        \old@apaSeven@section%
+        [\appendixnamelocal\ifoneappendix\else~\textbf\theappendix\fi:~##1]% On TOC
+        {\appendixnamelocal\ifoneappendix\else~\textbf\theappendix\fi\linebreak##1}
+        \setlength{\parindent}{0.5in}
+        \makeatletter
+        \@afterindentfalse
+        \@afterheading
+        \makeatother
+    }%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% template과 직접적인 관련이 없는 설정으로 이것저것 대신 해준다.
 
 \if@snu@easy
-	% 이것은 KLDP에서 가져왔다.
-	% http://faq.ktug.or.kr/faq/pdflatex%B0%FAlatex%B5%BF%BD%C3%BB%E7%BF%EB
-	\ifpdf
-		\input glyphtounicode\pdfgentounicode=1 %type 1 font사용시
-		% \usepackage{dhucs-cmap} % true type 글꼴 사용시
-		% \pdfmapfile{+unttf-pdftex-dhucs.map} % truetype글꼴사용시
-		\usepackage[pdftex,unicode]{hyperref}
-		\usepackage[pdftex]{graphicx}
-		\usepackage[pdftex,svgnames]{xcolor}
-	\else
-		\usepackage[dvipdfmx,unicode]{hyperref}
-		\usepackage[dvipdfmx]{graphicx}
-		\usepackage[dvipdfmx,svgnames]{xcolor}
-	\fi
-	%KC2008의 공식예제인 first.tex와 ko.TEX v0.1.0 사용 설명서 참조
-	%hangul-ucs 4.0 이전 버전에서는 dhucs-ucshyper라는 부가 패키지가 제공되었으나, 
-	%hyperref의 기능 향상에 따라 불필요해졌으므로 
-	%ko.TEX에서는 이를 제공하지 않는다.
+    % 이것은 KLDP에서 가져왔다.
+    % http://faq.ktug.or.kr/faq/pdflatex%B0%FAlatex%B5%BF%BD%C3%BB%E7%BF%EB
+    \ifpdf
+        \input glyphtounicode\pdfgentounicode=1 %type 1 font사용시
+        % \usepackage{dhucs-cmap} % true type 글꼴 사용시
+        % \pdfmapfile{+unttf-pdftex-dhucs.map} % truetype글꼴사용시
+        \usepackage[pdftex,unicode]{hyperref}
+        \usepackage[pdftex]{graphicx}
+        \usepackage[pdftex,svgnames]{xcolor}
+    \else
+        \usepackage[dvipdfmx,unicode]{hyperref}
+        \usepackage[dvipdfmx]{graphicx}
+        \usepackage[dvipdfmx,svgnames]{xcolor}
+    \fi
+    %KC2008의 공식예제인 first.tex와 ko.TEX v0.1.0 사용 설명서 참조
+    %hangul-ucs 4.0 이전 버전에서는 dhucs-ucshyper라는 부가 패키지가 제공되었으나, 
+    %hyperref의 기능 향상에 따라 불필요해졌으므로 
+    %ko.TEX에서는 이를 제공하지 않는다.
 \fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -13,8 +13,6 @@
 \usepackage{kotex}
 \usepackage{csquotes}
 
-\include{snutocstyle} % SNU toc style
-
 % Define important paths as commands
 \providecommand{\rootdir}{.}
 \providecommand{\bibdir}{\rootdir/bibliography}
@@ -25,19 +23,18 @@
 \usepackage{subfiles}
 \usepackage{lipsum} % lorem ipsum
 
-\usepackage[backend=biber,style=apa,sorting=nyt]{biblatex}
 \DeclareLanguageMapping{american}{american-apa}
 \addbibresource{\bibdir/references.bib}
 
 %% \title : 22pt로 나오는 큰 제목
 %% \title* : 16pt로 나오는 작은 제목
+%% 줄바꿈이 필요할 경우 mbox로 묶어준 뒤 개행
+% \mbox{불확실 상황에서의 선택 과제의 효율적인 파라미터 추정:}\\
+% \mbox{기록-기반 제한을 더한 적응적 설계 최적화를 이용하여}
 \title{%
     Random title for SNU Department of Psychology
 }
 \title*{%
-    %% 줄바꿈이 필요할 경우 mbox로 묶어준 뒤 개행
-	% \mbox{불확실 상황에서의 선택 과제의 효율적인 파라미터 추정:}\\
-	% \mbox{기록-기반 제한을 더한 적응적 설계 최적화를 이용하여}
 	서울대학교 심리학과 졸업논문을 위한 무작위 제목
 }
 
@@ -45,14 +42,12 @@
 \academicen{Psychology}
 
 \schoolko{서울대학교 대학원}
-\departmentko{심리학과 심리학 전공}
-
 \schoolen{COLLEGE OF SOCIAL SCIENCE}
+
+\departmentko{심리학과 심리학 전공}
 \departmenten{DEPARTMENT OF PSYCHOLOGY}
 
 %% 저자 이름 Author's(Your) name
-%\author{홍길동}
-%\author*{홍~길~동} % Insert space for Hangul name.
 \author{홍길동}
 \author*{홍~길~동} % Same as \author.
 
@@ -68,7 +63,7 @@
 %% 표지에 적히는 날짜.
 %% 학위 수여일이 아니라 논문 발간년도를 적어야 할 수도 있음.
 \graddate{2020~년~2~월}
-\graddateen{Febraury 2020}
+\graddateen{February 2020}
 
 %% 논문 제출일 Submission date
 %% (?) Use Korean date format.
@@ -109,7 +104,7 @@
 \pagenumbering{roman}
 % 초록 Abstract
 
-\subfile{sections/0-abstract}
+\subfile{sections/0-abstract-en}
 
 \tableofcontents
 \clearpage\listoffigures  % if any figure exists
@@ -118,17 +113,17 @@
 \cleardoublepage
 \pagenumbering{arabic}
 
-\subfile{sections/1-introduction}
-\subfile{sections/2-methods}
-\subfile{sections/3-results}
-\subfile{sections/4-discussion}
+\subfile{sections/1-intro-en}
+\subfile{sections/2-methods-en}
+\subfile{sections/3-results-en}
+\subfile{sections/4-discussion-en}
 
-\clearpage
+\printbibliography[title=References]
+
 \appendix
-\addcontentsline{toc}{section}{Appendix}
-\subfile{appendix/a-simulation}
+\subfile{sections/a-simulation-en}
 
-\subfile{sections/0-abstract-kor}
+\subfile{sections/0-abstract-ko}
 \subfile{sections/0-acknowledgement}
 
 \end{document}
